@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>News Search</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1>News Search</h1>
+            <div class="theme-toggle">
+                <a href="{{ url_for('dashboard') }}" class="logout-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+            </div>
+        </header>
+
+        <form action="{{ url_for('news_search') }}" method="GET" class="search-form">
+            <input type="text" name="q" placeholder="Search for news..." value="{{ query }}">
+            <button type="submit" class="comment-submit-btn">
+                <i class="fas fa-search"></i> Search
+            </button>
+        </form>
+
+        <div class="news-results">
+            {% for article in articles %}
+            <div class="summary-card">
+                <div class="summary-header">
+                    <h2 class="summary-title">{{ article.title }}</h2>
+                    <span class="sentiment-badge">{{ article.source['name'] if article.source else 'Unknown' }}</span>
+                </div>
+                
+                <p class="summary-content">{{ article.description }}</p>
+                
+                <div class="article-actions">
+                    <form action="{{ url_for('save_article') }}" method="POST">
+                        <input type="hidden" name="title" value="{{ article.title }}">
+                        <input type="hidden" name="description" value="{{ article.description }}">
+                        <input type="hidden" name="url" value="{{ article.url }}">
+                        <input type="hidden" name="source" value="{{ article.source['name'] if article.source else '' }}">
+                        <input type="hidden" name="published_at" value="{{ article.publishedAt }}">
+                        <input type="hidden" name="query" value="{{ query }}">
+                        <button type="button" class="comment-submit-btn save-article-btn" data-title="{{ article.title }}" data-description="{{ article.description }}" data-url="{{ article.url }}" data-source="{{ article.source['name'] if article.source else '' }}" data-publishedat="{{ article.publishedAt }}" data-query="{{ query }}">
+                            <span class="loading-text">Save Article</span>
+                        </button>
+                    </form>
+                    <a href="{{ article.url }}" target="_blank" class="logout-btn">
+                        <i class="fas fa-external-link-alt"></i> Read Full Article
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <script defer>
+    document.querySelectorAll('.save-article-btn').forEach(btn => {
+        btn.addEventListener('click', async function() {
+            const btn = this;
+            const spinner = document.createElement('span');
+            spinner.className = 'loading-spinner';
+            
+            // Disable button and show loading
+            btn.disabled = true;
+            btn.querySelector('.loading-text').setAttribute('data-state', 'loading');
+            btn.appendChild(spinner);
+
+            try {
+                const response = await fetch('/save_article', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        title: btn.dataset.title,
+                        description: btn.dataset.description,
+                        url: btn.dataset.url,
+                        source: btn.dataset.source,
+                        published_at: btn.dataset.publishedat,
+                        query: btn.dataset.query
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    btn.querySelector('.loading-text').setAttribute('data-state', 'success');
+                    btn.style.backgroundColor = '#4CAF50'; // Green for success
+                    // Add sentiment badge
+                    const badge = document.createElement('span');
+                    badge.className = `sentiment-badge sentiment-${result.sentiment}`;
+                    badge.innerHTML = `${result.sentiment} (${Math.round(result.confidence * 100)}%)`;
+                    btn.parentElement.appendChild(badge);
+                } else {
+                    btn.querySelector('.loading-text').setAttribute('data-state', 'error');
+                    btn.style.backgroundColor = '#f44336'; // Red for error
+                    alert(result.message || 'Error saving article');
+                }
+            } catch (error) {
+                btn.querySelector('.loading-text').setAttribute('data-state', 'error');
+                alert('Network error - please try again');
+            } finally {
+                spinner.remove();
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.querySelector('.loading-text').removeAttribute('data-state');
+                    btn.style.backgroundColor = ''; // Reset color
+                }, 2000);
+            }
+        });
+    });
+    </script>
+</body>
+</html>

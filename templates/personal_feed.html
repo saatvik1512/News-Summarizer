@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My News Feed</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1>Your Personal News Feed 📰</h1>
+            <div class="theme-toggle">
+                <a href="{{ url_for('dashboard') }}" class="logout-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+            </div>
+        </header>
+
+        <div class="feed-controls">
+            <form action="{{ url_for('personal_feed') }}" method="GET">
+                <input type="text" name="search" 
+                       placeholder="Search your saved articles..."
+                       value="{{ search_query }}">
+                <button type="submit" class="comment-submit-btn">
+                    <i class="fas fa-search"></i> Filter
+                </button>
+                {% if search_query %}
+                <a href="{{ url_for('personal_feed') }}" class="logout-btn">
+                    Clear Filters
+                </a>
+                {% endif %}
+            </form>
+        </div>
+
+        <div class="news-results">
+            {% if articles %}
+                {% for article in articles %}
+                <div class="summary-card">
+                    <div class="summary-header">
+                        <h2 class="summary-title">{{ article.title }}</h2>
+                        <span class="sentiment-badge sentiment-{{ article.sentiment }}">
+                            {{ article.sentiment|capitalize }} 
+                            {% if article.confidence %}
+                            ({{ "%.0f"|format(article.confidence*100) }}%)
+                            {% else %}
+                            (N/A)
+                            {% endif %}
+                        </span>
+                    </div>
+                    
+                    <p class="summary-content">{{ article.description }}</p>
+                    
+                    <div class="article-meta">
+                        <span class="meta-item">
+                            <i class="fas fa-calendar-alt"></i> 
+                            {{ article.added_at.strftime('%b %d, %Y %H:%M') }}
+                        </span>
+                        <a href="{{ article.url }}" target="_blank" class="logout-btn">
+                            <i class="fas fa-external-link-alt"></i> Visit Source
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <i class="fas fa-newspaper fa-3x"></i>
+                    <h3>No articles in your feed yet</h3>
+                    <p>Search news and save interesting articles to see them here!</p>
+                    <a href="{{ url_for('news_search') }}" class="comment-submit-btn">
+                        <i class="fas fa-search"></i> Explore News
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

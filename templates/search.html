@@ -1,0 +1,28 @@
+<!-- templates/search.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Search Results for "{{ query }}"</h1>
+        <a href="{{ url_for('home') }}">Back to all summaries</a>
+    </header>
+    <main style="display: flex;">
+        {% if data %}
+            {% for item in data %}
+                <div class="summary-card">
+                    <h3>{{ item['title'] }}</h3>
+                    <p>{{ item['summary'] }}</p>
+                    <p><strong>Sentiment:</strong> {{ item['sentiment'] }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No results found for "{{ query }}". Try a different search.</p>
+        {% endif %}
+    </main>
+</body>
+</html>

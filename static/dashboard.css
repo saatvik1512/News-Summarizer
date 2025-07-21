@@ -1,0 +1,360 @@
+/* static/dashboard.css */
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Add to dashboard.css */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.dashboard-header h1 {
+    color: #333;
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+.logout-btn {
+    background: #dc3545;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.3s;
+}
+
+.logout-btn:hover {
+    background: #c82333;
+    color: white;
+}
+
+.summary-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 25px;
+    padding: 25px;
+    position: relative;
+}
+
+.summary-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.summary-title {
+    font-size: 1.4rem;
+    color: #333;
+    margin: 0;
+}
+
+.sentiment-badge {
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+.sentiment-positive {
+    background: #00fc3b;
+    color: #155724;
+}
+
+.sentiment-negative {
+    background: #ee0014;
+    color: #721c24;
+}
+
+.sentiment-neutral {
+    background: #e2e3e5;
+    color: #383d41;
+}
+
+.summary-content {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.comments-section {
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.comment-form {
+    margin-bottom: 25px;
+}
+
+.comment-form textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    resize: vertical;
+    min-height: 80px;
+}
+
+.rating-input {
+    width: 80px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.comment-submit-btn {
+    background: #5cb85c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.comment-submit-btn:hover {
+    background: #4cae4c;
+}
+
+.comment-list {
+    margin-top: 20px;
+}
+
+.comment-item {
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #5cb85c;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.comment-content {
+    flex-grow: 1;
+}
+
+.comment-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+.comment-author {
+    font-weight: 600;
+    color: #333;
+}
+
+.comment-rating {
+    color: #ffc107;
+    font-weight: bold;
+}
+
+.comment-text {
+    color: #666;
+    line-height: 1.5;
+}
+
+.comment-time {
+    color: #999;
+    font-size: 0.85rem;
+}
+
+/* Dark mode styles */
+.dark-mode {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+}
+
+.dark-mode h1, .dark-mode h2, .dark-mode span{
+    color: white;
+}
+
+.dark-mode .summary-card {
+    background: #2d2d2d;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.dark-mode .summary-content,
+.dark-mode .comment-text {
+    color: #b0b0b0;
+}
+
+.dark-mode .comments-section {
+    border-top-color: #404040;
+}
+
+.dark-mode .comment-item {
+    background: #363636;
+}
+
+.dark-mode .form-control {
+    background-color: #404040;
+    border-color: #505050;
+    color: #fff;
+}
+
+.dark-mode .sentiment-badge {
+    color: white !important;
+}
+
+.dark-mode .logout-btn {
+    background: #dc3545;
+}
+
+/* Dark mode toggle */
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-left: auto;
+}
+
+.toggle-btn {
+    background: #444;
+    border: none;
+    width: 50px;
+    height: 26px;
+    border-radius: 13px;
+    position: relative;
+    cursor: pointer;
+    padding: 0;
+}
+
+.toggle-btn::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform 0.3s;
+}
+
+.dark-mode .toggle-btn {
+    background: #5cb85c;
+}
+
+.dark-mode .toggle-btn::after {
+    transform: translateX(24px);
+}
+
+.toggle-label {
+    color: #666;
+    font-weight: 500;
+}
+
+.dark-mode .toggle-label {
+    color: #999;
+}
+
+/* Add to dashboard.css */
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    border: 2px dashed #eee;
+    border-radius: 10px;
+    margin: 30px 0;
+}
+
+.empty-state i {
+    color: #5cb85c;
+    margin-bottom: 15px;
+}
+
+.article-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.meta-item {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.feed-controls {
+    margin-bottom: 30px;
+}
+
+.feed-controls input[type="text"] {
+    width: 300px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.dark-mode .empty-state {
+    border-color: #404040;
+}
+
+.dark-mode .meta-item {
+    color: #b0b0b0;
+}
+
+.search-meta {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.dark-mode .search-meta {
+    color: #b0b0b0;
+}
+
+/* Add loading spinner styles */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #5cb85c;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
+/* .loading-text::after {
+    content: "Saving";
+} */
+.loading-text[data-state="success"]::after {
+    content: "Saved!";
+}
+.loading-text[data-state="error"]::after {
+    content: "Error!";
+}

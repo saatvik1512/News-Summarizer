@@ -22,9 +22,6 @@ instance/
 # Log files
 *.log
 
-# Static/Dynamic files
-/static/
-/templates/
 
 # CSV file (if generated)
 summaries_with_sentiment.csv

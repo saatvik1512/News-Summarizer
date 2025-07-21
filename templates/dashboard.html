@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <nav class="dashboard-nav">
+                <a href="{{ url_for('news_search') }}" class="nav-link">
+                    <i class="fas fa-search"></i> Search News
+                </a>
+                <a href="{{ url_for('personal_feed') }}" class="nav-link">
+                    <i class="fas fa-rss"></i> My Feed
+                </a>
+            </nav>
+            <h1>Welcome back, {{ username }}! 👋</h1>
+            <div class="theme-toggle">
+                <span class="toggle-label">Dark Mode</span>
+                <button class="toggle-btn" id="themeToggle"></button>
+                <a href="{{ url_for('logout') }}" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </header>
+
+        {% for item in data %}
+        <div class="summary-card">
+            <div class="summary-header">
+                <h2 class="summary-title">{{ item['title'] }}</h2>
+                <span class="sentiment-badge sentiment-{{ item['sentiment'] }}">
+                    {{ item['sentiment']|capitalize }}
+                </span>
+            </div>
+            
+            <p class="summary-content">{{ item['summary'] }}</p>
+
+            <div class="comments-section">
+                <form class="comment-form" action="{{ url_for('add_comment', summary_id=item['id']) }}" method="POST">
+                    <textarea name="comment" placeholder="Write your comment..." required></textarea>
+                    <input type="number" class="rating-input" name="rating" min="1" max="5" 
+                           placeholder="Rating (1-5)">
+                    <button type="submit" class="comment-submit-btn">
+                        <i class="fas fa-comment-dots"></i> Post Comment
+                    </button>
+                </form>
+
+                <div class="comment-list">
+                    {% if comments[item.id] %}
+                        {% for comment in comments[item.id] %}
+                        <div class="comment-item">
+                            <div class="user-avatar">
+                                {{ comment.username[:1]|upper }}
+                            </div>
+                            <div class="comment-content">
+                                <div class="comment-meta">
+                                    <span class="comment-author">{{ comment.username }}</span>
+                                    {% if comment.rating %}
+                                    <span class="comment-rating">
+                                        <i class="fas fa-star"></i> {{ comment.rating }}/5
+                                    </span>
+                                    {% endif %}
+                                </div>
+                                <p class="comment-text">{{ comment.comment }}</p>
+                                <small class="comment-time">
+                                    <i class="far fa-clock"></i> {{ comment.timestamp }}
+                                </small>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="no-comments">No comments yet. Be the first to share your thoughts!</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <script defer>
+        // Dark mode toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+    
+        // Check localStorage for saved theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            body.classList.add(savedTheme);
+        }
+    
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            const currentTheme = body.classList.contains('dark-mode') ? 'dark-mode' : '';
+            localStorage.setItem('theme', currentTheme);
+        });
+    </script>
+</body>
+</html>
