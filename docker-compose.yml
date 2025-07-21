@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - NEWS_API_KEY=${NEWS_API_KEY}
+      - FLASK_ENV=production
+    volumes:
+      - ./instance:/app/instance
+      - ./migrations:/app/migrations
+    command: >
+      sh -c "flask db upgrade &&
+             gunicorn --bind 0.0.0.0:5000 --workers 3 app:app"

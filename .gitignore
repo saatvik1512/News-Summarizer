@@ -1,0 +1,38 @@
+# Python generated files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+
+# Instance directory (SQLite database)
+instance/
+
+# Environment variables
+.env
+
+# macOS specific
+.DS_Store
+
+# Vim swap files
+*.swp
+
+# Log files
+*.log
+
+# Static/Dynamic files
+/static/
+/templates/
+
+# CSV file (if generated)
+summaries_with_sentiment.csv
+
+# Flask-Migrate (uncomment if migrations should be ignored)
+# migrations/
+
+# Editor files
+.idea/
+*.sublime-project
+*.sublime-workspace

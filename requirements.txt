@@ -1,0 +1,11 @@
+Flask-SQLAlchemy
+Flask-Login
+pandas
+Werkzeug
+python-dotenv
+newsapi-python
+Flask-Migrate
+python-dateutil
+transformers
+torch
+gunicorn
