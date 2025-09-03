@@ -8,4 +8,5 @@ Flask-Migrate
 python-dateutil
 transformers
 torch
+psycopg2-binary==2.9.9
 gunicorn

@@ -16,7 +16,15 @@ newsapi = NewsApiClient(api_key=os.getenv('NEWS_API_KEY'))
 # Initialize Flask app
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '11223344'  # Change to a strong secret key
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(app.instance_path, 'users.db')
+if 'DATABASE_URL' in os.environ:
+    # For Render's PostgreSQL (replace postgres:// with postgresql://)
+    database_url = os.environ['DATABASE_URL']
+    if database_url.startswith("postgres://"):
+        database_url = database_url.replace("postgres://", "postgresql://", 1)
+    app.config['SQLALCHEMY_DATABASE_URI'] = database_url
+else:
+    # For local development
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 # SQLite database
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
