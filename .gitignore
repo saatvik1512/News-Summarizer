@@ -24,7 +24,6 @@ instance/
 
 
 # CSV file (if generated)
-summaries_with_sentiment.csv
 
 # Flask-Migrate (uncomment if migrations should be ignored)
 # migrations/
