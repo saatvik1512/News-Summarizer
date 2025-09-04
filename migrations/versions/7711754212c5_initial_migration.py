@@ -28,7 +28,7 @@ def upgrade():
     sa.Column('source', sa.String(length=150), nullable=True),
     sa.Column('published_at', sa.DateTime(), nullable=True),
     sa.Column('added_at', sa.DateTime(), nullable=True),
-    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
