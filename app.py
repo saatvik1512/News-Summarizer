@@ -43,7 +43,7 @@ class User(UserMixin, db.Model):
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     summary_id = db.Column(db.Integer, nullable=False)  # Assuming each summary has a unique ID
     comment_text = db.Column(db.Text, nullable=False)
     rating = db.Column(db.Integer, nullable=True)  # Optional
@@ -55,7 +55,7 @@ class Comment(db.Model):
 # Add below the Comment model
 class SavedArticle(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     article_id = db.Column(db.String(255), nullable=False)  # NewsAPI's unique ID
     title = db.Column(db.String(500), nullable=False)
     description = db.Column(db.Text)
