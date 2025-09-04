@@ -36,6 +36,7 @@ summaries_df = pd.read_csv("summaries_with_sentiment.csv")
 
 # User model
 class User(UserMixin, db.Model):
+    __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(150), nullable=False)
@@ -212,53 +213,6 @@ def news_search():
         articles = []
     return render_template('news_search.html', articles=articles, query=query)
 
-# @app.route('/save_article', methods=['POST'])
-# @login_required
-# def save_article():
-#     try:
-#         # Convert ISO string to datetime object
-#         # published_at = datetime.fromisoformat(
-#         #     request.form['published_at'].replace('Z', '+00:00')
-#         # )
-#         published_at = safe_parse_iso(request.form['published_at'])
-#     except Exception as e:
-#         published_at = datetime.now(datetime.timezone.utc) # Fallback to current time
-
-#     article_data = {
-#         'article_id': request.form['url'][-15:],  # Simple unique ID from URL
-#         'title': request.form['title'],
-#         'description': request.form['description'],
-#         'url': request.form['url'],
-#         'source': request.form['source'],
-#         'published_at': published_at  # Now using datetime object
-#     }
-
-#     analyzer = SentimentAnalyzer()
-#     text_to_analyze = f"{article_data['title']} {article_data['description']}"
-#     sentiment = analyzer.analyze(text_to_analyze)
-#     article_data.update({
-#         'sentiment': sentiment['sentiment'],
-#         'confidence': sentiment['confidence']
-#     })
-    
-#     # Rest of the code remains the same
-#     existing = SavedArticle.query.filter_by(
-#         user_id=current_user.id,
-#         article_id=article_data['article_id']
-#     ).first()
-    
-#     if not existing:
-#         new_article = SavedArticle(
-#             user_id=current_user.id,
-#             **article_data
-#         )
-#         db.session.add(new_article)
-#         db.session.commit()
-#         flash('Article saved to your feed!', 'success')
-#     else:
-#         flash('Article already in your feed', 'warning')
-    
-#     return redirect(url_for('news_search', q=request.form.get('query', '')))
 
 @app.route('/save_article', methods=['POST'])
 @login_required
